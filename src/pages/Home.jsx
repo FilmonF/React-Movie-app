@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchMovies, searchMovies } from '../services/api';  // Importing the fetchMovies and searchMovies functions
+import { fetchMovies, searchMovies } from '../services/api';
 import MovieCard from '../components/MovieCard';
 import SearchBar from '../components/SearchBar';
 
@@ -9,7 +9,7 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [page, setPage] = useState(1);  // Track current page for pagination
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     const fetchAllMovies = async () => {
@@ -17,12 +17,12 @@ const Home = () => {
       let allMovies = [];
       try {
         // Fetch movies across multiple pages
-        for (let i = 1; i <= 5; i++) {  // Limit to 5 pages for now, can increase based on your requirement
+        for (let i = 1; i <= 5; i++) {
           const data = await fetchMovies(i);
-          allMovies = [...allMovies, ...data];  // Combine all pages' results
+          allMovies = [...allMovies, ...data];
         }
-        setMovies(allMovies);  // Store all the fetched movies
-        setFilteredMovies(allMovies);  // Filtered movies will also be initialized with full data
+        setMovies(allMovies);
+        setFilteredMovies(allMovies);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -31,7 +31,7 @@ const Home = () => {
     };
 
     fetchAllMovies();
-  }, []);  // Only run on initial load
+  }, []);
 
   useEffect(() => {
     const fetchSearchResults = async () => {
@@ -39,12 +39,12 @@ const Home = () => {
       let allSearchResults = [];
       try {
         // Fetch search results across multiple pages
-        for (let i = 1; i <= 5; i++) {  // Limiting search results to 5 pages for now
+        for (let i = 1; i <= 5; i++) {
           const data = await searchMovies(searchQuery, i);
-          allSearchResults = [...allSearchResults, ...data];  // Combine all pages' results
+          allSearchResults = [...allSearchResults, ...data];
         }
         setMovies(allSearchResults);  // Set all search results to state
-        setFilteredMovies(allSearchResults);  // Filtered movies will be initialized with full search results
+        setFilteredMovies(allSearchResults);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -61,7 +61,7 @@ const Home = () => {
 
   useEffect(() => {
     const filtered = movies.filter((movie) =>
-      movie.title.toLowerCase().includes(searchQuery.toLowerCase())  // TMDb uses 'title' instead of 'name'
+      movie.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredMovies(filtered);
   }, [searchQuery, movies]);
